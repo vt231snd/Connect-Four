@@ -20,6 +20,7 @@ const StartPage = () => {
             <div style={{ display: 'flex', gap: '15px' }}>
                 <Button onClick={handleStart}>Почати гру</Button>
                 <Button variant="secondary" onClick={handleSettings}>Налаштування</Button>
+                <Button variant="secondary" onClick={() => navigate('/leaderboard')}>Таблиця лідерів</Button>
             </div>
         </div>
     );

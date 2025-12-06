@@ -1,5 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { addGameResult } from '../store/leaderboardSlice';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import GameBoard from '../components/GameBoard/GameBoard';
 import Button from '../components/Button/Button';
 import Modal from '../components/Modal/Modal';
@@ -9,12 +11,28 @@ import styles from './GamePage.module.css';
 const GamePage = () => {
     const { id } = useParams();
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
-    const { board, currentPlayer, winner, dropChip, resetGame, settings } = useConnectFour();
+    const settings = useSelector((state) => state.settings);
+    const { board, currentPlayer, winner, dropChip, resetGame } = useConnectFour(settings);
+
     const [isModalOpen, setModalOpen] = useState(false);
 
     useEffect(() => {
-        if (winner) setModalOpen(true);
+        if (winner) {
+            setModalOpen(true);
+            const winnerName = winner === 'draw' ? 'Нічия' :
+                (winner === 'red' ? settings.player1Name : settings.player2Name);
+
+            dispatch(addGameResult({
+                id: Date.now(),
+                date: new Date().toISOString(),
+                player1: settings.player1Name,
+                player2: settings.player2Name,
+                winner: winner,
+                winnerName: winnerName
+            }));
+        }
     }, [winner]);
 
     const handleRestart = () => {
@@ -31,8 +49,8 @@ const GamePage = () => {
 
     return (
         <div className={styles.container}>
-            {/* Відображаємо ID сесії для демонстрації динамічного роутингу */}
-            <div style={{ position: 'absolute', top: '10px', left: '10px', opacity: 0.5, fontSize: '0.8rem' }}>
+            {/*  */}
+            <div className={styles.sessionId}>
                 Session ID: {id}
             </div>
 

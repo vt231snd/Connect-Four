@@ -5,6 +5,17 @@
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
+    position: relative;
+}
+
+.sessionId {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 0.85rem;
+    font-family: monospace;
+    color: var(--text-muted);
+    opacity: 0.8;
 }
 
 .header {
@@ -12,15 +23,21 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
-    background: white;
+    background: var(--card-bg);
     padding: 15px;
     border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 5px var(--shadow-color);
+    margin-top: 30px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .playerInfo {
     font-size: 1.2rem;
     font-weight: bold;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
 }
 
 .badge {
@@ -29,6 +46,8 @@
     color: white;
     margin-left: 10px;
     text-transform: uppercase;
+    font-size: 1rem;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
 }
 
 .badge.red, .winnerName.red { background-color: #ff4757; }
@@ -39,10 +58,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
 }
 
-.modalTitle { margin-top: 0; color: #333; }
-.modalText { font-size: 1.2rem; margin-bottom: 20px; }
+.modalTitle { margin-top: 0; color: var(--text-color); }
+.modalText { font-size: 1.2rem; margin-bottom: 20px; color: var(--text-color); }
 .winnerName { padding: 2px 8px; border-radius: 4px; color: white; }
 
 .modalActions {

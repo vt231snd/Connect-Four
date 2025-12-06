@@ -2,6 +2,8 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateSettings, toggleTheme } from '../store/settingsSlice';
 import Button from '../components/Button/Button';
 
 const schema = yup.object({
@@ -12,27 +14,36 @@ const schema = yup.object({
 
 const SettingsPage = () => {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
-    const savedSettings = JSON.parse(localStorage.getItem('gameSettings')) || {
-        player1Name: 'Player 1',
-        player2Name: 'Player 2',
-        winCondition: 4
-    };
+    const settings = useSelector((state) => state.settings);
 
     const { register, handleSubmit, formState: { errors } } = useForm({
-        defaultValues: savedSettings,
+        defaultValues: settings,
         resolver: yupResolver(schema)
     });
 
     const onSubmit = (data) => {
-        localStorage.setItem('gameSettings', JSON.stringify(data));
-        alert('Налаштування збережено!');
+        dispatch(updateSettings(data));
+        alert('Налаштування збережено в Redux!');
         navigate('/');
     };
 
     return (
         <div className="page-container">
             <h2>Налаштування гри</h2>
+
+            {/* Кнопка зміни теми */}
+            <div style={{ marginBottom: '20px', width: '100%', maxWidth: '400px', display: 'flex', justifyContent: 'center' }}>
+                <Button
+                    variant="secondary"
+                    onClick={() => dispatch(toggleTheme())}
+                    type="button"
+                >
+                    {settings.theme === 'light' ? '🌙 Темна тема' : '☀️ Світла тема'}
+                </Button>
+            </div>
+
             <form onSubmit={handleSubmit(onSubmit)} className="settings-form">
 
                 <div className="form-group">
