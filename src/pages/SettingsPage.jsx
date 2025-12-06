@@ -1,8 +1,8 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import { useNavigate } from 'react-router-dom';
 import Button from '../components/Button/Button';
-import { useNavigate } from 'react';
 
 const schema = yup.object({
     player1Name: yup.string().required("Ім'я обов'язкове").max(10, "Макс 10 символів"),
@@ -10,7 +10,9 @@ const schema = yup.object({
     winCondition: yup.number().min(3).max(5).required(),
 }).required();
 
-const SettingsPage = ({ onBack }) => {
+const SettingsPage = () => {
+    const navigate = useNavigate();
+
     const savedSettings = JSON.parse(localStorage.getItem('gameSettings')) || {
         player1Name: 'Player 1',
         player2Name: 'Player 2',
@@ -25,7 +27,7 @@ const SettingsPage = ({ onBack }) => {
     const onSubmit = (data) => {
         localStorage.setItem('gameSettings', JSON.stringify(data));
         alert('Налаштування збережено!');
-        onBack();
+        navigate('/');
     };
 
     return (
@@ -54,8 +56,10 @@ const SettingsPage = ({ onBack }) => {
                     </select>
                 </div>
 
-                <Button type="submit">Зберегти</Button>
-                <Button variant="secondary" onClick={onBack} type="button">Назад</Button>
+                <div style={{ marginTop: '20px' }}>
+                    <Button type="submit">Зберегти</Button>
+                    <Button variant="secondary" onClick={() => navigate('/')} type="button">Назад</Button>
+                </div>
             </form>
         </div>
     );
