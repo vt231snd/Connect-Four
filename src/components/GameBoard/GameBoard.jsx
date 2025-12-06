@@ -1,18 +1,17 @@
 import GameCell from '../GameCell/GameCell';
 import styles from './GameBoard.module.css';
 
-const ROWS = 6;
-const COLS = 7;
-
-const GameBoard = () => {
-    const grid = Array(ROWS).fill(Array(COLS).fill(null));
-
+const GameBoard = ({ board, onColumnClick }) => {
     return (
         <div className={styles.board}>
-            {grid.map((row, rIndex) => (
+            {board.map((row, rIndex) => (
                 <div key={rIndex} className={styles.row}>
-                    {row.map((_, cIndex) => (
-                        <GameCell key={`${rIndex}-${cIndex}`} columnIndex={cIndex} />
+                    {row.map((cellValue, cIndex) => (
+                        <GameCell
+                            key={`${rIndex}-${cIndex}`}
+                            value={cellValue}
+                            onClick={() => onColumnClick(cIndex)}
+                        />
                     ))}
                 </div>
             ))}
