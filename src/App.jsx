@@ -6,16 +6,29 @@ import './App.css';
 
 function App() {
     const [currentPage, setCurrentPage] = useState('start');
-
+    const [lastResult, setLastResult] = useState(null);
     const handleStartGame = () => setCurrentPage('game');
-    const handleEndGame = () => setCurrentPage('results');
-    const handleRestart = () => setCurrentPage('start');
+
+    const handleEndGame = (result) => {
+        setLastResult(result);
+        setCurrentPage('results');
+    };
+
+    const handleRestart = () => {
+        setLastResult(null);
+        setCurrentPage('start');
+    };
 
     return (
         <div className="app">
             {currentPage === 'start' && <StartPage onStart={handleStartGame} />}
+
             {currentPage === 'game' && <GamePage onEndGame={handleEndGame} />}
-            {currentPage === 'results' && <ResultsPage onRestart={handleRestart} />}
+
+            {/* передаємо результат на сторінку підсумків */}
+            {currentPage === 'results' && (
+                <ResultsPage winner={lastResult} onRestart={handleRestart} />
+            )}
         </div>
     );
 }

@@ -1,22 +1,34 @@
-import { useState } from 'react';
+import { useEffect } from 'react';
 import GameBoard from '../components/GameBoard/GameBoard';
 import Button from '../components/Button/Button';
+import { useConnectFour } from '../hooks/useConnectFour';
 
 const GamePage = ({ onEndGame }) => {
-    const [currentPlayer, setCurrentPlayer] = useState('Гравець 1');
-    const [score, setScore] = useState({ p1: 0, p2: 0 });
+    const { board, currentPlayer, winner, dropChip, resetGame } = useConnectFour();
+
+    useEffect(() => {
+        if (winner) {
+            const timer = setTimeout(() => {
+                onEndGame(winner);
+            }, 1000);
+            return () => clearTimeout(timer);
+        }
+    }, [winner, onEndGame]);
 
     return (
         <div className="page-container">
             <header>
-                <h2>Хід гравця: {currentPlayer}</h2>
-                <div className="score">Рахунок: {score.p1} : {score.p2}</div>
+                {/* динамічне відображення чий хід */}
+                <h2>Хід: <span style={{ color: currentPlayer }}>{currentPlayer.toUpperCase()}</span></h2>
             </header>
 
-            <GameBoard />
+            {/* передаємо дошку та функцію кліку вниз */}
+            <GameBoard board={board} onColumnClick={dropChip} />
 
             <footer>
-                <Button variant="secondary" onClick={onEndGame}>Здатися / Завершити</Button>
+                <Button variant="secondary" onClick={() => onEndGame(null)}>
+                    Здатися
+                </Button>
             </footer>
         </div>
     );
