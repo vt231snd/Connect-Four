@@ -3,7 +3,7 @@ import { useState } from 'react';
 const ROWS = 6;
 const COLS = 7;
 
-export const useConnectFour = () => {
+export const useConnectFour = (settings) => {
     const getInitialSettings = () => {
         const saved = localStorage.getItem('gameSettings');
         if (saved) return JSON.parse(saved);
@@ -14,7 +14,7 @@ export const useConnectFour = () => {
         };
     };
 
-    const [settings] = useState(getInitialSettings);
+    const winCondition = settings?.winCondition || 4;
     const [board, setBoard] = useState(Array.from({ length: ROWS }, () => Array(COLS).fill(null)));
     const [currentPlayer, setCurrentPlayer] = useState('red');
     const [winner, setWinner] = useState(null);
