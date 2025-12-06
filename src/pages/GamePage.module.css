@@ -1,0 +1,52 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.playerInfo {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.badge {
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: white;
+    margin-left: 10px;
+    text-transform: uppercase;
+}
+
+.badge.red, .winnerName.red { background-color: #ff4757; }
+.badge.yellow, .winnerName.yellow { background-color: #ffa502; color: black; }
+
+.main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modalTitle { margin-top: 0; color: #333; }
+.modalText { font-size: 1.2rem; margin-bottom: 20px; }
+.winnerName { padding: 2px 8px; border-radius: 4px; color: white; }
+
+.modalActions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}

@@ -1,33 +1,33 @@
 import { useState } from 'react';
 import StartPage from './pages/StartPage';
 import GamePage from './pages/GamePage';
-import ResultsPage from './pages/ResultsPage';
+import SettingsPage from './pages/SettingsPage';
 import './App.css';
 
 function App() {
     const [currentPage, setCurrentPage] = useState('start');
-    const [lastResult, setLastResult] = useState(null);
-    const handleStartGame = () => setCurrentPage('game');
 
-    const handleEndGame = (result) => {
-        setLastResult(result);
-        setCurrentPage('results');
-    };
-
-    const handleRestart = () => {
-        setLastResult(null);
-        setCurrentPage('start');
-    };
+    const navigateTo = (page) => setCurrentPage(page);
 
     return (
         <div className="app">
-            {currentPage === 'start' && <StartPage onStart={handleStartGame} />}
+            {currentPage === 'start' && (
+                <StartPage
+                    onStart={() => navigateTo('game')}
+                    onSettings={() => navigateTo('settings')}
+                />
+            )}
 
-            {currentPage === 'game' && <GamePage onEndGame={handleEndGame} />}
+            {currentPage === 'game' && (
+                <GamePage
+                    onQuitGame={() => navigateTo('start')}
+                />
+            )}
 
-            {/* передаємо результат на сторінку підсумків */}
-            {currentPage === 'results' && (
-                <ResultsPage winner={lastResult} onRestart={handleRestart} />
+            {currentPage === 'settings' && (
+                <SettingsPage
+                    onBack={() => navigateTo('start')}
+                />
             )}
         </div>
     );
